@@ -1,0 +1,2 @@
+export const SET_APP_CONTEXT = 'SET_APP_CONTEXT';
+export const CLEAR_APP_CONTEXT = 'CLEAR_APP_CONTEXT';
