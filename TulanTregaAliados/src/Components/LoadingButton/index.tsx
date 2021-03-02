@@ -6,6 +6,7 @@ interface LoadingButtonProps {
   label: string;
   loading?: boolean;
   onPress: () => void;
+  status?: 'danger' | 'warning' | 'info';
 }
 
 const LoadingIndicator = (props: any) => (
@@ -18,12 +19,15 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
   label,
   loading,
   onPress,
+  status,
 }) => {
   return (
     <Button
+      status={status ? status : 'primary'}
       onPress={onPress}
       appearance="outline"
-      accessoryLeft={loading ? LoadingIndicator : undefined}>
+      accessoryLeft={loading ? LoadingIndicator : undefined}
+      disabled={loading ? true : false}>
       {label}
     </Button>
   );

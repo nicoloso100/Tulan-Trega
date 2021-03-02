@@ -10,8 +10,11 @@ import {AppNavigator} from './Navigations/root';
 import ReduxStore from './Redux/configureStore';
 import {Provider} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import {SET_APP_CONTEXT} from './Utils/constants';
-import {setAppContext} from './Actions/Redux/user.action';
+import {SET_APP_CONTEXT, SET_USER_LOGGED_ID} from './Utils/constants';
+import Toast from 'react-native-toast-message';
+import {setAppContext, setUserLogged} from './Actions/Redux/user.action';
+
+import './Utils/warningsIgnore';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -23,7 +26,12 @@ const App = () => {
       if (value) {
         ReduxStore.dispatch(setAppContext(value as TAppContext));
       }
-      setReady(true);
+      AsyncStorage.getItem(SET_USER_LOGGED_ID).then((loggedId) => {
+        if (loggedId) {
+          ReduxStore.dispatch(setUserLogged(loggedId));
+        }
+        setReady(true);
+      });
     });
   }, []);
 
@@ -38,6 +46,7 @@ const App = () => {
             theme={{...eva.light, ...theme}}
             customMapping={mapping}>
             <AppNavigator />
+            <Toast ref={(ref) => Toast.setRef(ref)} />
           </ApplicationProvider>
         </React.Fragment>
       )}

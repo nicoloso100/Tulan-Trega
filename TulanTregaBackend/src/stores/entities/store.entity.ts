@@ -6,13 +6,13 @@ export type StoreDocument = Store & Document;
 @Schema()
 export class StoreLocation {
   @Prop({ required: true })
-  formated: number;
-
-  @Prop({ required: true })
-  longitude: number;
+  address: string;
 
   @Prop({ required: true })
   latitude: number;
+
+  @Prop({ default: true })
+  longitude: number;
 }
 
 @Schema()
@@ -23,6 +23,9 @@ export class Store {
   @Prop({ required: true })
   password: string;
 
+  @Prop({ default: true })
+  enabled: boolean;
+
   @Prop()
   name: string;
 
@@ -31,6 +34,9 @@ export class Store {
 
   @Prop()
   location: StoreLocation;
+
+  @Prop()
+  phone: string;
 }
 
 export const StoreSchema = SchemaFactory.createForClass(Store);

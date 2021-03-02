@@ -6,22 +6,26 @@ import SignUp from '../Screens/SignUp';
 import {useSelector} from 'react-redux';
 import {RootState} from '../Redux/rootReducer';
 import AppContext from '../Screens/AppContext';
+import HomeNavigation from './home';
 
 const {Navigator, Screen} = createStackNavigator();
 
 export const AppNavigator: React.FC = () => {
   const user = useSelector((state: RootState) => state.userReducer);
-  console.log(user.appContext);
   return (
     <NavigationContainer>
       <Navigator headerMode="none">
-        {user.appContext === null ? (
-          <Screen name="SetContext" component={AppContext} />
+        {!user.userLoggedId ? (
+          user.appContext === null ? (
+            <Screen name="SetContext" component={AppContext} />
+          ) : (
+            <React.Fragment>
+              <Screen name="SignIn" component={SignIn} />
+              <Screen name="SignUp" component={SignUp} />
+            </React.Fragment>
+          )
         ) : (
-          <React.Fragment>
-            <Screen name="SignIn" component={SignIn} />
-            <Screen name="SignUp" component={SignUp} />
-          </React.Fragment>
+          <Screen name="Home" component={HomeNavigation} />
         )}
       </Navigator>
     </NavigationContainer>

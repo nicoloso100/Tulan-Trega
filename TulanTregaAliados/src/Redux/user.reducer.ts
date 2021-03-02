@@ -1,4 +1,9 @@
-import {CLEAR_APP_CONTEXT, SET_APP_CONTEXT} from '../Utils/constants';
+import {
+  CLEAR_APP_CONTEXT,
+  CLOSE_SESSION,
+  SET_APP_CONTEXT,
+  SET_USER_LOGGED_ID,
+} from '../Utils/constants';
 
 export interface ISetAppContext {
   type: typeof SET_APP_CONTEXT;
@@ -9,14 +14,29 @@ export interface IClearAppContext {
   type: typeof CLEAR_APP_CONTEXT;
 }
 
-export type IUserActionType = ISetAppContext | IClearAppContext;
+export interface ISetUserLoggedId {
+  type: typeof SET_USER_LOGGED_ID;
+  payload: string;
+}
+
+export interface ICloseSession {
+  type: typeof CLOSE_SESSION;
+}
+
+export type IUserActionType =
+  | ISetAppContext
+  | IClearAppContext
+  | ISetUserLoggedId
+  | ICloseSession;
 
 export interface IUserReducer {
   appContext: TAppContext | null;
+  userLoggedId: string | null;
 }
 
 const initialState: IUserReducer = {
   appContext: null,
+  userLoggedId: null,
 };
 
 const UserReducer = (
@@ -30,7 +50,20 @@ const UserReducer = (
         appContext: action.payload,
       };
     case CLEAR_APP_CONTEXT:
-      return initialState;
+      return {
+        ...state,
+        appContext: null,
+      };
+    case SET_USER_LOGGED_ID:
+      return {
+        ...state,
+        userLoggedId: action.payload,
+      };
+    case CLOSE_SESSION:
+      return {
+        ...state,
+        userLoggedId: null,
+      };
     default:
       return state;
   }

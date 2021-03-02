@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../Redux/rootReducer';
 import {Container} from '../../Styles/styledComponents';
@@ -21,10 +21,11 @@ import PasswordInput from '../../Components/PasswordInput';
 import {emailRegex} from '../../Utils';
 import LoadingButton from '../../Components/LoadingButton';
 import AuthNavigation from '../../Components/AuthNavgation';
-import {clearAppContext} from '../../Actions/Redux/user.action';
 import AsyncStorage from '@react-native-community/async-storage';
-import {SET_APP_CONTEXT} from '../../Utils/constants';
+import {SET_APP_CONTEXT, SET_USER_LOGGED_ID} from '../../Utils/constants';
 import {Text} from '@ui-kitten/components';
+import {SignInStore} from '../../Actions/APICalls/StoresActions';
+import {clearAppContext, setUserLogged} from '../../Actions/Redux/user.action';
 
 interface SignInForm {
   email: string;
@@ -32,13 +33,29 @@ interface SignInForm {
 }
 
 const SignIn: React.FC = () => {
-  const dipatch = useDispatch();
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.userReducer);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {control, handleSubmit, errors} = useForm<SignInForm>();
-  const onContinue = (data: SignInForm) => {
-    console.log(data);
+
+  const onContinue = async (data: SignInForm) => {
+    setLoading(true);
+    try {
+      if (user.appContext === 'store') {
+        const result = await SignInStore({
+          email: data.email,
+          password: data.password,
+        });
+        if (result) {
+          AsyncStorage.setItem(SET_USER_LOGGED_ID, result);
+          dispatch(setUserLogged(result));
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const navigateSignUp = () => {
@@ -47,7 +64,7 @@ const SignIn: React.FC = () => {
 
   const navigateSetContext = () => {
     AsyncStorage.removeItem(SET_APP_CONTEXT).then(() => {
-      dipatch(clearAppContext());
+      dispatch(clearAppContext());
     });
   };
 
@@ -108,6 +125,7 @@ const SignIn: React.FC = () => {
               <LoadingButton
                 label="Continuar"
                 onPress={handleSubmit(onContinue)}
+                loading={loading}
               />
             </ButtonContainer>
           </InputsContainer>

@@ -5,6 +5,7 @@ import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { Store, StoreDocument } from './entities/store.entity';
 import * as bcrypt from 'bcryptjs';
+import { DeleteImage, UploadImage } from 'src/utils/uploadImage';
 
 @Injectable()
 export class StoresService {
@@ -13,6 +14,13 @@ export class StoresService {
   ) {}
 
   async create(createStoreDto: CreateStoreDto) {
+    const user = await this.storeModel.findOne({ email: createStoreDto.email });
+    if (user) {
+      throw new HttpException(
+        'El usuario ingresado ya existe',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     const password = await bcrypt.hash(createStoreDto.password, 10);
     createStoreDto.password = password;
     const createdStore = new this.storeModel(createStoreDto);
@@ -28,7 +36,7 @@ export class StoresService {
         user.password,
       );
       if (passMatch) {
-        return 'Ingreso exitoso';
+        return user._id;
       } else {
         throw new HttpException(
           'La contraseña ingresada es incorrecta',
@@ -43,7 +51,34 @@ export class StoresService {
     }
   }
 
-  update(id: string, updateStoreDto: UpdateStoreDto) {
-    return this.storeModel.findByIdAndUpdate(id, updateStoreDto, { new: true });
+  async getInformation(id: string) {
+    const user = await this.storeModel.findById(id);
+    return user;
+  }
+
+  async update(id: string, updateStoreDto: UpdateStoreDto) {
+    const user = await this.storeModel.findById(id);
+    user.name = updateStoreDto.name;
+    user.location = updateStoreDto.location;
+    if (updateStoreDto.phone) {
+      user.phone = updateStoreDto.phone;
+    }
+    if (user.logo) {
+      try {
+        const split = user.logo.split('/');
+        await DeleteImage(split[split.length - 1]);
+      } catch {}
+    }
+    if (updateStoreDto.logo) {
+      try {
+        const url = await UploadImage(
+          `${user._id}.jpeg`,
+          'Stores',
+          updateStoreDto.logo,
+        );
+        user.logo = url;
+      } catch {}
+    }
+    return await user.save();
   }
 }

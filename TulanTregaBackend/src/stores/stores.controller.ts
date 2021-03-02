@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Put, Param } from '@nestjs/common';
+import { Controller, Post, Body, Put, Param, Get } from '@nestjs/common';
 import { StoresService } from './stores.service';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
@@ -19,8 +19,18 @@ export class StoresController {
     return { message: result };
   }
 
+  @Get(':id')
+  async getInformation(@Param('id') id: string) {
+    const result = await this.storesService.getInformation(id);
+    return { data: result };
+  }
+
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateStoreDto: UpdateStoreDto) {
-    return this.storesService.update(id, updateStoreDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateStoreDto: UpdateStoreDto,
+  ) {
+    const result = await this.storesService.update(id, updateStoreDto);
+    return { data: result };
   }
 }
