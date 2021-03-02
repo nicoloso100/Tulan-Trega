@@ -21,6 +21,7 @@ import {RootState} from '../Redux/rootReducer';
 import Information from '../Screens/Information';
 import {Container} from '../Styles/styledComponents';
 import {SET_USER_LOGGED_ID} from '../Utils/constants';
+import {OrdersNavigator} from './orders';
 import {ProductsNavigator} from './products';
 
 const PersonIcon = (props: any) => <Icon {...props} name="person-outline" />;
@@ -86,7 +87,7 @@ const HomeNavigation: React.FC = () => {
               <Layout level="2" style={styles.tab}>
                 <TopNavigation title="PEDIDOS" alignment="center" />
                 <Divider />
-                {selectedIndex === 0 && <Text category="h5">USERS</Text>}
+                {selectedIndex === 0 && <OrdersNavigator />}
               </Layout>
               <Layout level="2" style={styles.tab}>
                 <TopNavigation title="MIS PRODUCTOS" alignment="center" />
