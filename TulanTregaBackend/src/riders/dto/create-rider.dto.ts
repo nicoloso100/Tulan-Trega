@@ -1,4 +1,4 @@
 export class CreateRiderDto {
-  emmail: string;
+  email: string;
   password: string;
 }

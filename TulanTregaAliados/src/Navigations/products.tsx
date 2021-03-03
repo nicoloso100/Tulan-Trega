@@ -1,9 +1,9 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import ProductList from '../Screens/Products/productList';
-import AddProduct from '../Screens/Products/addProduct';
-import ModifyProduct from '../Screens/Products/modifyProduct';
+import ProductList from '../Screens/Stores/Products/productList';
+import AddProduct from '../Screens/Stores/Products/addProduct';
+import ModifyProduct from '../Screens/Stores/Products/modifyProduct';
 
 const {Navigator, Screen} = createStackNavigator();
 

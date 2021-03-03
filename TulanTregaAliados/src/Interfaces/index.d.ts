@@ -18,3 +18,13 @@ declare interface ILocation {
   latitude: number;
   longitude: number;
 }
+
+declare interface IValidateUser {
+  email: string;
+  password: string;
+}
+
+declare interface ICreateUser {
+  email: string;
+  password: string;
+}

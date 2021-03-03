@@ -1,25 +1,25 @@
-import {SET_USER_INFO} from '../Utils/constants';
+import {SET_STORE_USER_INFO} from '../Utils/constants';
 
-export interface ISetstoreInfo {
-  type: typeof SET_USER_INFO;
+export interface ISetStoreInfo {
+  type: typeof SET_STORE_USER_INFO;
   payload: IStore;
 }
-export type IstoreActionType = ISetstoreInfo;
+export type IStoreActionType = ISetStoreInfo;
 
-export interface IstoreReducer {
+export interface IStoreReducer {
   storeInfo: IStore | null;
 }
 
-const initialState: IstoreReducer = {
+const initialState: IStoreReducer = {
   storeInfo: null,
 };
 
 const StoreReducer = (
-  state: IstoreReducer = initialState,
-  action: IstoreActionType,
-): IstoreReducer => {
+  state: IStoreReducer = initialState,
+  action: IStoreActionType,
+): IStoreReducer => {
   switch (action.type) {
-    case SET_USER_INFO:
+    case SET_STORE_USER_INFO:
       return {
         ...state,
         storeInfo: action.payload,

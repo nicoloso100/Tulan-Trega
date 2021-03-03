@@ -15,28 +15,30 @@ import { UpdateRiderDto } from './dto/update-rider.dto';
 export class RidersController {
   constructor(private readonly ridersService: RidersService) {}
 
-  @Post()
+  @Post('/signUp')
   async create(@Body() createRiderDto: CreateRiderDto) {
-    return this.ridersService.create(createRiderDto);
+    const result = await this.ridersService.create(createRiderDto);
+    return { message: result };
   }
 
-  @Get()
-  findAll() {
-    return this.ridersService.findAll();
+  @Post('/signIn')
+  async signIn(@Body() createRiderDto: CreateRiderDto) {
+    const result = await this.ridersService.validate(createRiderDto);
+    return { message: result };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ridersService.findOne(+id);
+  async getInformation(@Param('id') id: string) {
+    const result = await this.ridersService.getInformation(id);
+    return { data: result };
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateRiderDto: UpdateRiderDto) {
-    return this.ridersService.update(+id, updateRiderDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ridersService.remove(+id);
+  async update(
+    @Param('id') id: string,
+    @Body() updateRiderDto: UpdateRiderDto,
+  ) {
+    const result = await this.ridersService.update(id, updateRiderDto);
+    return { data: result };
   }
 }

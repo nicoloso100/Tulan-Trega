@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
-import {UpdateStore} from '../../Actions/APICalls/StoresActions';
-import {setUserInfo} from '../../Actions/Redux/store.action';
-import ImageUploader from '../../Components/ImageUploader';
-import LoadingButton from '../../Components/LoadingButton';
-import Map from '../../Components/Map';
-import NumberInput from '../../Components/NumberInput';
-import TextInput from '../../Components/TextInput';
-import {RootState} from '../../Redux/rootReducer';
+import {UpdateRider} from '../../../Actions/APICalls/RidersAction';
+import {setRiderUserInfo} from '../../../Actions/Redux/rider.action';
+import ImageUploader from '../../../Components/ImageUploader';
+import LoadingButton from '../../../Components/LoadingButton';
+import NumberInput from '../../../Components/NumberInput';
+import TextInput from '../../../Components/TextInput';
+import {RootState} from '../../../Redux/rootReducer';
 import {
   ShowErrorNotification,
   ShowSuccessNotification,
-} from '../../Utils/notifications';
+} from '../../../Utils/notifications';
 import {
   ButtonContainer,
   ImageContainer,
@@ -24,64 +23,57 @@ import {
 
 declare interface InformationForm {
   name: string;
-  location: string;
-  phone?: string;
+  phone: string;
 }
 
 const defaultLogo =
-  'https://storage.googleapis.com/tulan-trega/Stores/defaultStore.png';
+  'https://storage.googleapis.com/tulan-trega/Riders/defaultRider.png';
 
-const Information: React.FC = () => {
+const RiderInformation: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.userReducer);
-  const store = useSelector((state: RootState) => state.storeReducer.storeInfo);
-  const [logo, setLogo] = useState<string | undefined>();
-  const [location, setocation] = useState<ILocation | undefined>();
+  const rider = useSelector((state: RootState) => state.riderReducer.riderInfo);
+  const [image, setImage] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const {control, handleSubmit, errors, setValue} = useForm<InformationForm>();
 
   useEffect(() => {
-    if (store) {
-      if (store.name) {
-        setValue('name', store.name);
+    if (rider) {
+      if (rider.name) {
+        setValue('name', rider.name);
       }
-      if (store.phone) {
-        setValue('phone', store.phone);
+      if (rider.phone) {
+        setValue('phone', rider.phone);
       }
-      if (store.location) {
-        setocation(store.location);
-      }
-      if (store.logo) {
-        setLogo(store.logo);
+      if (rider.image) {
+        setImage(rider.image);
       } else {
-        setLogo(defaultLogo);
+        setImage(defaultLogo);
       }
     }
-  }, [setValue, store]);
+  }, [setValue, rider]);
 
   const onContinue = async (data: InformationForm) => {
-    if (user.userLoggedId) {
+    if (user.userLoggedId && rider) {
       setLoading(true);
       try {
-        if (location) {
-          const updateStore: IUpdateStore = {
+        if (image && image !== defaultLogo) {
+          const updateRider: IUpdateRider = {
             name: data.name,
-            location: location,
+            phone: data.phone,
           };
-          if (store && logo !== store.logo && logo !== defaultLogo) {
-            updateStore.logo = logo;
+          console.log(image !== rider.image);
+          if (image !== rider.image) {
+            updateRider.image = image;
           }
-          if (data.phone) {
-            updateStore.phone = data.phone;
-          }
-          const result = await UpdateStore(user.userLoggedId, updateStore);
+          const result = await UpdateRider(user.userLoggedId, updateRider);
           if (result) {
-            dispatch(setUserInfo(result));
+            dispatch(setRiderUserInfo(result));
             ShowSuccessNotification('Los datos se han guardado correctamente');
           }
         } else {
-          ShowErrorNotification('Debe seleccionar una ubicación');
+          ShowErrorNotification('Debe seleccionar una foto de perfil');
         }
       } catch (error) {
       } finally {
@@ -95,9 +87,11 @@ const Information: React.FC = () => {
       <InputsContainer>
         <ImageContainer>
           <ImageLabel category="p1">
-            (Opcional) Presiona para ingresar el logo o una foto del negocio
+            Presiona para ingresar una foto de perfil
           </ImageLabel>
-          {logo && <ImageUploader defaultImg={logo} onChangeImage={setLogo} />}
+          {image && (
+            <ImageUploader defaultImg={image} onChangeImage={setImage} />
+          )}
         </ImageContainer>
         <InputContainer>
           <Controller
@@ -105,7 +99,7 @@ const Information: React.FC = () => {
             render={({onChange, value}) => (
               <TextInput
                 size="large"
-                placeholder="Ingresa el nombre del negocio"
+                placeholder="Ingresa tu nombre completo"
                 value={value}
                 onChange={onChange}
                 error={errors.name}
@@ -124,19 +118,18 @@ const Information: React.FC = () => {
             render={({onChange, value}) => (
               <NumberInput
                 size="large"
-                placeholder="(Opcional) Ingresa un teléfono"
+                placeholder="Ingresa un teléfono"
                 value={value}
                 onChange={onChange}
                 error={errors.phone}
               />
             )}
             name="phone"
+            rules={{
+              required: 'Debe ingresar un número de teléfono',
+            }}
             defaultValue=""
           />
-        </InputContainer>
-        <InputContainer>
-          <ImageLabel category="p1">Ingrese su ubicación</ImageLabel>
-          <Map defaultLocation={location} onChangeLocation={setocation} />
         </InputContainer>
         <ButtonContainer>
           <LoadingButton
@@ -150,4 +143,4 @@ const Information: React.FC = () => {
   );
 };
 
-export default Information;
+export default RiderInformation;

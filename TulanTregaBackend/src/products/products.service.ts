@@ -26,9 +26,7 @@ export class ProductsService {
           createProductDto.image,
         );
         createdProduct.image = url;
-      } catch (err) {
-        console.log(err);
-      }
+      } catch {}
     } else {
       createdProduct.image =
         'https://storage.googleapis.com/tulan-trega/Products/defaultProduct.png';

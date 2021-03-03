@@ -21,6 +21,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../Redux/rootReducer';
 import {SignUpStore} from '../../Actions/APICalls/StoresActions';
 import {ShowSuccessNotification} from '../../Utils/notifications';
+import {SignUpRider} from '../../Actions/APICalls/RidersAction';
 
 interface SignUpForm {
   email: string;
@@ -41,6 +42,15 @@ const SignUp: React.FC = () => {
     try {
       if (user.appContext === 'store') {
         const result = await SignUpStore({
+          email: data.email,
+          password: data.password,
+        });
+        if (result) {
+          ShowSuccessNotification(result);
+          navigation.navigate('SignIn');
+        }
+      } else if (user.appContext === 'rider') {
+        const result = await SignUpRider({
           email: data.email,
           password: data.password,
         });

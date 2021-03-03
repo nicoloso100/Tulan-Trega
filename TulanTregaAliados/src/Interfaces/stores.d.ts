@@ -1,13 +1,3 @@
-declare interface IValidateUser {
-  email: string;
-  password: string;
-}
-
-declare interface ICreateUser {
-  email: string;
-  password: string;
-}
-
 declare interface IStore {
   _id: string;
   enabled: boolean;

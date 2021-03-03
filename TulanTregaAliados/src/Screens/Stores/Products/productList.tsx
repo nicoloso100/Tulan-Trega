@@ -3,9 +3,10 @@ import {Button, Icon} from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
-import {GetAllProducts} from '../../Actions/APICalls/ProductsAction';
-import ProductCard from '../../Components/ProductCard';
-import {RootState} from '../../Redux/rootReducer';
+import {GetAllProducts} from '../../../Actions/APICalls/ProductsAction';
+import ProductCard from '../../../Components/ProductCard';
+import {RootState} from '../../../Redux/rootReducer';
+import {ShowErrorNotification} from '../../../Utils/notifications';
 import {ProductsBtnCont, ProductsListContainer} from './styles';
 
 const PlusIcon = (props: any) => <Icon {...props} name="plus" />;
@@ -15,10 +16,17 @@ const ProductList: React.FC = () => {
   const userId = useSelector(
     (state: RootState) => state.userReducer.userLoggedId,
   );
+  const info = useSelector((state: RootState) => state.storeReducer.storeInfo);
   const [products, setProducts] = useState<IProductItem[]>([]);
 
   const onCreateProduct = () => {
-    navigation.navigate('AddProduct');
+    if (info && info.name === undefined && info.location === undefined) {
+      navigation.navigate('AddProduct');
+    } else {
+      ShowErrorNotification(
+        'Primero debe completar la información de su perfil',
+      );
+    }
   };
 
   React.useEffect(() => {

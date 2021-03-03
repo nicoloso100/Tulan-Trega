@@ -63,13 +63,13 @@ export class StoresService {
     if (updateStoreDto.phone) {
       user.phone = updateStoreDto.phone;
     }
-    if (user.logo) {
-      try {
-        const split = user.logo.split('/');
-        await DeleteImage(split[split.length - 1]);
-      } catch {}
-    }
     if (updateStoreDto.logo) {
+      if (user.logo) {
+        try {
+          const split = user.logo.split('/');
+          await DeleteImage(split[split.length - 1]);
+        } catch {}
+      }
       try {
         const url = await UploadImage(
           `${user._id}.jpeg`,

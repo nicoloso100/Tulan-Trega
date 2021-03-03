@@ -3,13 +3,13 @@ import {Text} from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useSelector} from 'react-redux';
-import {CreateProduct} from '../../Actions/APICalls/ProductsAction';
-import ImageUploader from '../../Components/ImageUploader';
-import LoadingButton from '../../Components/LoadingButton';
-import NumberInput from '../../Components/NumberInput';
-import TextInput from '../../Components/TextInput';
-import {RootState} from '../../Redux/rootReducer';
-import {ShowSuccessNotification} from '../../Utils/notifications';
+import {CreateProduct} from '../../../Actions/APICalls/ProductsAction';
+import ImageUploader from '../../../Components/ImageUploader';
+import LoadingButton from '../../../Components/LoadingButton';
+import NumberInput from '../../../Components/NumberInput';
+import TextInput from '../../../Components/TextInput';
+import {RootState} from '../../../Redux/rootReducer';
+import {ShowSuccessNotification} from '../../../Utils/notifications';
 import {
   ButtonContainer,
   CloseButton,

@@ -9,6 +9,13 @@ export const StoresUrls = {
   update: `${BaseUrl}/stores`,
 };
 
+export const RidersUrls = {
+  signUp: `${BaseUrl}/riders/signUp`,
+  signIn: `${BaseUrl}/riders/signIn`,
+  getInfo: `${BaseUrl}/riders`,
+  update: `${BaseUrl}/riders`,
+};
+
 export const ProductsUrls = {
   getDetails: `${BaseUrl}/products`,
   getAll: `${BaseUrl}/products/getAll`,

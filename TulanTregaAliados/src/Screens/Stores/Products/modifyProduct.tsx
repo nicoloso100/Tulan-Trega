@@ -7,12 +7,12 @@ import {
   GetProductDetails,
   TriggerProduct,
   UpdateProduct,
-} from '../../Actions/APICalls/ProductsAction';
-import ImageUploader from '../../Components/ImageUploader';
-import LoadingButton from '../../Components/LoadingButton';
-import NumberInput from '../../Components/NumberInput';
-import TextInput from '../../Components/TextInput';
-import {ShowSuccessNotification} from '../../Utils/notifications';
+} from '../../../Actions/APICalls/ProductsAction';
+import ImageUploader from '../../../Components/ImageUploader';
+import LoadingButton from '../../../Components/LoadingButton';
+import NumberInput from '../../../Components/NumberInput';
+import TextInput from '../../../Components/TextInput';
+import {ShowSuccessNotification} from '../../../Utils/notifications';
 import {
   ButtonModifyCont,
   ButtonsModifyCont,

@@ -26,6 +26,7 @@ import {SET_APP_CONTEXT, SET_USER_LOGGED_ID} from '../../Utils/constants';
 import {Text} from '@ui-kitten/components';
 import {SignInStore} from '../../Actions/APICalls/StoresActions';
 import {clearAppContext, setUserLogged} from '../../Actions/Redux/user.action';
+import {SignInRider} from '../../Actions/APICalls/RidersAction';
 
 interface SignInForm {
   email: string;
@@ -45,6 +46,15 @@ const SignIn: React.FC = () => {
     try {
       if (user.appContext === 'store') {
         const result = await SignInStore({
+          email: data.email,
+          password: data.password,
+        });
+        if (result) {
+          AsyncStorage.setItem(SET_USER_LOGGED_ID, result);
+          dispatch(setUserLogged(result));
+        }
+      } else if (user.appContext === 'rider') {
+        const result = await SignInRider({
           email: data.email,
           password: data.password,
         });
