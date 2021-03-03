@@ -20,7 +20,7 @@ const ProductList: React.FC = () => {
   const [products, setProducts] = useState<IProductItem[]>([]);
 
   const onCreateProduct = () => {
-    if (info && info.name === undefined && info.location === undefined) {
+    if (info && info.name !== undefined && info.location !== undefined) {
       navigation.navigate('AddProduct');
     } else {
       ShowErrorNotification(
