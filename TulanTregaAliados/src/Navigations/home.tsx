@@ -24,7 +24,7 @@ import RiderInformation from '../Screens/Riders/Information';
 import StoreInformation from '../Screens/Stores/Information';
 import {Container} from '../Styles/styledComponents';
 import {SET_USER_LOGGED_ID} from '../Utils/constants';
-import {OrdersNavigator} from './orders';
+import {RiderOrdersNavigator, StoreOrdersNavigator} from './orders';
 import {ProductsNavigator} from './products';
 
 const PersonIcon = (props: any) => <Icon {...props} name="person-outline" />;
@@ -122,7 +122,7 @@ const HomeNavigation: React.FC = () => {
               <Layout level="2" style={styles.tab}>
                 <TopNavigation title="PEDIDOS" alignment="center" />
                 <Divider />
-                {selectedIndex === 0 && <OrdersNavigator />}
+                {selectedIndex === 0 && <StoreOrdersNavigator />}
               </Layout>
               <Layout level="2" style={styles.tab}>
                 <TopNavigation title="MIS PRODUCTOS" alignment="center" />
@@ -152,7 +152,7 @@ const HomeNavigation: React.FC = () => {
               <Layout level="2" style={styles.tab}>
                 <TopNavigation title="PEDIDOS DISPONIBLES" alignment="center" />
                 <Divider />
-                {selectedIndex === 0 && <React.Fragment />}
+                {selectedIndex === 0 && <RiderOrdersNavigator />}
               </Layout>
               <Layout level="2" style={styles.tab}>
                 <TopNavigation title="MIS INFORMACIÓN" alignment="center" />

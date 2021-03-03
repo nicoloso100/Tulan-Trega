@@ -1,5 +1,4 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {Text} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {
@@ -8,6 +7,7 @@ import {
   TriggerProduct,
   UpdateProduct,
 } from '../../../Actions/APICalls/ProductsAction';
+import CloseButton from '../../../Components/CloseButton';
 import ImageUploader from '../../../Components/ImageUploader';
 import LoadingButton from '../../../Components/LoadingButton';
 import NumberInput from '../../../Components/NumberInput';
@@ -16,9 +16,6 @@ import {ShowSuccessNotification} from '../../../Utils/notifications';
 import {
   ButtonModifyCont,
   ButtonsModifyCont,
-  CloseButton,
-  CloseButtonIcon,
-  CloseContainer,
   ImageContainer,
   ImageLabel,
   InputContainer,
@@ -116,12 +113,7 @@ const ModifyProduct: React.FC = () => {
 
   return (
     <ProductsContainer>
-      <CloseContainer>
-        <CloseButton onPress={onClose}>
-          <CloseButtonIcon fill="#8F9BB3" name="close-outline" />
-          <Text category="s1">Cerrar</Text>
-        </CloseButton>
-      </CloseContainer>
+      <CloseButton onClose={onClose} />
       <ImageLabel category="p1">
         ¿No tienes disponible el producto? Puedes deshabilitarlo y volverlo a
         habilitar en cualquier momento

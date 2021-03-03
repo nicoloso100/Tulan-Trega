@@ -1,9 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
-import {Text} from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import {CreateProduct} from '../../../Actions/APICalls/ProductsAction';
+import CloseButton from '../../../Components/CloseButton';
 import ImageUploader from '../../../Components/ImageUploader';
 import LoadingButton from '../../../Components/LoadingButton';
 import NumberInput from '../../../Components/NumberInput';
@@ -12,9 +12,6 @@ import {RootState} from '../../../Redux/rootReducer';
 import {ShowSuccessNotification} from '../../../Utils/notifications';
 import {
   ButtonContainer,
-  CloseButton,
-  CloseButtonIcon,
-  CloseContainer,
   ImageContainer,
   ImageLabel,
   InputContainer,
@@ -70,12 +67,7 @@ const AddProduct: React.FC = () => {
 
   return (
     <ProductsContainer>
-      <CloseContainer>
-        <CloseButton onPress={onClose}>
-          <CloseButtonIcon fill="#8F9BB3" name="close-outline" />
-          <Text category="s1">Cerrar</Text>
-        </CloseButton>
-      </CloseContainer>
+      <CloseButton onClose={onClose} />
       <InputsContainer>
         <ImageContainer>
           <ImageLabel category="p1">

@@ -16,3 +16,4 @@ declare module '@env' {
 
 declare module 'react-native-image-base64';
 declare module 'react-native-image-rotate';
+declare module 'currencyjs';

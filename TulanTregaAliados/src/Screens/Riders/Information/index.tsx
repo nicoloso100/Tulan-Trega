@@ -63,7 +63,6 @@ const RiderInformation: React.FC = () => {
             name: data.name,
             phone: data.phone,
           };
-          console.log(image !== rider.image);
           if (image !== rider.image) {
             updateRider.image = image;
           }

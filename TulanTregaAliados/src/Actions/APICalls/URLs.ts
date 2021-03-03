@@ -1,6 +1,7 @@
 import {API_URL} from '@env';
 
 const BaseUrl = API_URL;
+console.log(API_URL);
 
 export const StoresUrls = {
   signUp: `${BaseUrl}/stores/signUp`,

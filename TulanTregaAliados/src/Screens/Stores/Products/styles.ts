@@ -1,5 +1,5 @@
-import {Icon, Text} from '@ui-kitten/components';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {Text} from '@ui-kitten/components';
+import {ScrollView, View} from 'react-native';
 import styled from 'styled-components';
 
 export const ProductsContainer = styled(ScrollView)`
@@ -50,22 +50,4 @@ export const ButtonsModifyCont = styled(View)`
 export const ButtonModifyCont = styled(View)`
   height: 50px;
   margin-bottom: 10px;
-`;
-
-export const CloseContainer = styled(View)`
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-`;
-
-export const CloseButton = styled(TouchableOpacity)`
-  width: 70px;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const CloseButtonIcon = styled(Icon)`
-  width: 20px;
-  height: 20px;
 `;

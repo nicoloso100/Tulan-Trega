@@ -1,7 +1,8 @@
 import React from 'react';
+import NoData from '../../../Components/NoData';
 
-const OrderList: React.FC = () => {
-  return <React.Fragment></React.Fragment>;
+const StoreOrderList: React.FC = () => {
+  return <NoData text="Aún no tienes pedidos pendientes" />;
 };
 
-export default OrderList;
+export default StoreOrderList;
